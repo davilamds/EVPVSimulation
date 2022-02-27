@@ -1,0 +1,418 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Page</title>
+<meta name="generator" content="WYSIWYG Web Builder 16 - https://www.wysiwygwebbuilder.com">
+<link href="base/jquery-ui.min.css" rel="stylesheet">
+<link href="appcosim.css" rel="stylesheet">
+<link href="index.css" rel="stylesheet">
+<script src="jquery-1.12.4.min.js"></script>
+<script src="jquery-ui.min.js"></script>
+<script src="wwb16.min.js"></script>
+<script>
+$(document).ready(function()
+{
+   $("#Tabs1").tabs(
+   {
+      show: false,
+      hide: false,
+      event: 'click',
+      collapsible: false
+   });
+   $("#txtbx_chargeprobabilityfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#chbx_defaultchargeprobability").change(function()
+   {
+      if ($('#chbx_defaultchargeprobability').is(':checked'))
+      {
+         ShowObject('txtbx_firstpeak', 0);
+         ShowObject('txtbx_secondpeak', 0);
+         document.getElementById("txtbx_chargeprobabilityfile").style.opacity = "1.0";;
+         $('#txtbx_chargeprobabilityfile').prop('disabled', false);
+      }
+      if (!$('#chbx_defaultchargeprobability').is(':checked'))
+      {
+         ShowObject('txtbx_firstpeak', 1);
+         ShowObject('txtbx_secondpeak', 1);
+         document.getElementById("txtbx_chargeprobabilityfile").style.opacity = "0.2";;
+         $('#txtbx_chargeprobabilityfile').prop('disabled', true);
+      }
+   });
+   $("#chbx_defaultchargeprobability").trigger('change');
+   $("#txtbx_irradiationdssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#txtbx_masterdssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#txtbx_efficiencydssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#txtbx_ptdssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#txtbx_temperaturedssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#txtbx_loaddssfile :file").on('change', function()
+   {
+      var input = $(this).parents('.input-group').find(':text');
+      input.val($(this).val());
+   });
+   $("#chbx_transmissiondelay").change(function()
+   {
+      if ($('#chbx_transmissiondelay').is(':checked'))
+      {
+         ShowObject('txtbx_bandwidth', 0);
+         ShowObject('txtbx_paquetsize', 0);
+         ShowObject('txtbx_npackets', 0);
+         $('#txtbx_transmissiondelay').prop('disabled', false);
+         document.getElementById("txtbx_transmissiondelay").style.opacity = "1.0";;
+      }
+      if (!$('#chbx_transmissiondelay').is(':checked'))
+      {
+         ShowObject('txtbx_bandwidth', 1);
+         ShowObject('txtbx_paquetsize', 1);
+         ShowObject('txtbx_npackets', 1);
+         $('#txtbx_transmissiondelay').prop('disabled', true);
+         document.getElementById("txtbx_transmissiondelay").style.opacity = "0.2";;
+      }
+   });
+   $("#chbx_transmissiondelay").trigger('change');
+   $("#chbx_propagationdelay").change(function()
+   {
+      if ($('#chbx_propagationdelay').is(':checked'))
+      {
+         ShowObject('txtbx_distance', 0);
+         ShowObject('txtbx_velocity', 0);
+         $('#txtbx_propagationdelay').prop('disabled', false);
+         document.getElementById("txtbx_propagationdelay").style.opacity = "1.0";;
+      }
+      if (!$('#chbx_propagationdelay').is(':checked'))
+      {
+         ShowObject('txtbx_distance', 1);
+         ShowObject('txtbx_velocity', 1);
+         $('#txtbx_propagationdelay').prop('disabled', true);
+         document.getElementById("txtbx_propagationdelay").style.opacity = "0.2";;
+      }
+   });
+   $("#chbx_propagationdelay").trigger('change');
+});
+</script>
+<script src="eel.js"></script>
+<script>
+   function callPython(){
+      var js_simulationtime = document.getElementById("txtbx_simulationtime").value
+      var js_simulationtimegroup= document.querySelector('input[name="SimulationTime"]:checked').value
+      var js_montecarlo = document.getElementById("txtbx_montecarlo").value
+      var js_masterdssfile = document.getElementById("txtbx_masterdssfile-file").value
+      var js_simulationdaygroup= document.querySelector('input[name="SimulationDay"]:checked').value
+
+      var js_pvpenetration = document.getElementById("txtbx_pvpenetration").value
+      var js_enablepvpenetration = document.getElementById("chbx_pvpenetration").checked;
+      var js_enablepv = document.getElementById("chbx_enablepv").checked;
+      var js_irradiationdssfile = document.getElementById("txtbx_irradiationdssfile-file").value
+      var js_efficiencydssfile = document.getElementById("txtbx_efficiencydssfile-file").value
+      var js_ptdssfile = document.getElementById("txtbx_ptdssfile-file").value
+      var js_temperaturedssfile = document.getElementById("txtbx_temperaturedssfile-file").value
+
+      var js_setpointdelay = document.getElementById("txtbx_setpointdelay").value
+      var js_averagechargingtime = document.getElementById("txtbx_averagechargingtime").value
+      var js_evpenetration = document.getElementById("txtbx_evpenetration").value
+      var js_enableevpenetration = document.getElementById("chbx_evpenetration").checked;
+      var js_enableev = document.getElementById("chbx_enableev").checked;
+      var js_chargeprobabilityfile = document.getElementById("txtbx_chargeprobabilityfile-file").value
+      var js_defaultchargeprobability = document.getElementById("chbx_defaultchargeprobability").checked;
+      var js_firstpeak = document.getElementById("txtbx_firstpeak").value
+      var js_secondpeak = document.getElementById("txtbx_secondpeak").value
+
+      var js_transmissiondelay = document.getElementById("txtbx_transmissiondelay").value
+      var js_enabletransmissiondelay = document.getElementById("chbx_transmissiondelay").checked;
+      var js_bandwidth = document.getElementById("txtbx_bandwidth").value
+      var js_paquetsize = document.getElementById("txtbx_paquetsize").value
+      var js_npackets = document.getElementById("txtbx_npackets").value
+      var js_propagationdelay = document.getElementById("txtbx_propagationdelay").value
+      var js_enablepropagationdelay = document.getElementById("chbx_propagationdelay").checked;
+      var js_distance = document.getElementById("txtbx_distance").value
+      var js_velocity = document.getElementById("txtbx_velocity").value
+      var js_queuingdelay = document.getElementById("txtbx_queuingdelay").value
+      var js_processingdelay = document.getElementById("txtbx_processingdelay").value
+      var js_commnodes = document.getElementById("txtbx_commnodes").value
+      var js_enablecommdelays = document.getElementById("chbx_enablecommdelays").checked;
+
+      var js_loaddssfile = document.getElementById("txtbx_loaddssfile-file").value
+      var js_golaywindowsize = document.getElementById("txtbx_golaywindowsize").value
+      var js_golaypoliorder = document.getElementById("txtbx_golaypoliorder").value
+      var js_enablecontrol = document.getElementById("chbx_enablecontrol").checked;
+
+      eel.programa(js_simulationtime, js_simulationtimegroup, js_montecarlo, js_masterdssfile, js_simulationdaygroup, js_pvpenetration, js_enablepvpenetration, js_enablepv, js_irradiationdssfile, js_efficiencydssfile, js_ptdssfile, js_temperaturedssfile, js_setpointdelay, js_averagechargingtime, js_evpenetration, js_enableevpenetration, js_enableev, js_chargeprobabilityfile, js_defaultchargeprobability, js_firstpeak, js_secondpeak, js_transmissiondelay, js_enabletransmissiondelay, js_bandwidth, js_paquetsize, js_npackets, js_propagationdelay, js_enablepropagationdelay, js_distance, js_velocity, js_queuingdelay, js_processingdelay, js_commnodes, js_loaddssfile, js_golaywindowsize, js_golaypoliorder, js_enablecontrol, js_enablecommdelays)
+      
+   }
+
+   function graph_irradiation(){
+      eel.graph_irradiation2()
+      eel.graph_pvefficiency2()
+      eel.graph_pvpvst2()
+      eel.graph_pvtemperature2()
+   }
+   
+   function graph_probability(){
+      eel.graph_chargeprobability2()
+   }
+
+   function graph_residentialloadshape(){
+      eel.graph_residentialloadshape2()
+   }
+</script>
+</head>
+<body>
+<div id="Tabs1" style="position:absolute;left:16px;top:124px;width:1134px;height:566px;z-index:99;">
+<ul>
+<li><a href="#tabs1-page-1"><span>Simulation Configuration</span></a></li>
+<li><a href="#tabs1-page-2"><span>PV Systems</span></a></li>
+<li><a href="#tabs1-page-3"><span>EV clients</span></a></li>
+<li><a href="#tabs1-page-4"><span>Communication</span></a></li>
+<li><a href="#tabs1-page-5"><span>Load</span></a></li>
+<li><a href="#tabs1-page-6"><span>Control</span></a></li>
+<li><a href="#tabs1-page-7"><span>Results</span></a></li>
+</ul>
+<div style="height:540px;" id="tabs1-page-1">
+<div id="wb_Text3" style="position:absolute;left:76px;top:58px;width:101px;height:15px;z-index:0;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Simulation time</span></div>
+<input type="text" id="txtbx_simulationtime" style="position:absolute;left:192px;top:52px;width:38px;height:16px;z-index:1;" name="Editbox1" value="10" spellcheck="false">
+<div id="wb_Text7" style="position:absolute;left:33px;top:112px;width:144px;height:15px;z-index:2;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Montecarlo simulations</span></div>
+<input type="text" id="txtbx_montecarlo" style="position:absolute;left:192px;top:106px;width:38px;height:16px;z-index:3;" name="Editbox1" value="1" spellcheck="false">
+<div id="wb_Text4" style="position:absolute;left:73px;top:154px;width:104px;height:15px;z-index:4;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Master DSS file</span></div>
+<div id="txtbx_masterdssfile" class="input-group" style="position:absolute;left:192px;top:148px;width:270px;height:26px;z-index:5;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_masterdssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_Text20" style="position:absolute;left:55px;top:210px;width:101px;height:15px;z-index:6;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Simulation day</span></div>
+<div id="wb_rbtn_simulationdayweekday" style="position:absolute;left:197px;top:200px;width:20px;height:20px;z-index:7;">
+<input type="radio" id="rbtn_simulationdayweekday" name="SimulationDay" value="weekday" checked style="position:absolute;left:0;top:0;"><label for="rbtn_simulationdayweekday"></label></div>
+<div id="wb_rbtn_simulationdayweekend" style="position:absolute;left:197px;top:225px;width:20px;height:20px;z-index:8;">
+<input type="radio" id="rbtn_simulationdayweekend" name="SimulationDay" value="weekend" style="position:absolute;left:0;top:0;"><label for="rbtn_simulationdayweekend"></label></div>
+<div id="wb_Text19" style="position:absolute;left:228px;top:203px;width:63px;height:15px;z-index:9;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Weekday</span></div>
+<div id="wb_Text21" style="position:absolute;left:228px;top:230px;width:63px;height:15px;z-index:10;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Weekend</span></div>
+<div id="wb_rbtn_simulationtimeminutes" style="position:absolute;left:249px;top:44px;width:20px;height:27px;z-index:11;">
+<input type="radio" id="rbtn_simulationtimeminutes" name="SimulationTime" value="m" checked style="position:absolute;left:0;top:0;"><label for="rbtn_simulationtimeminutes"></label></div>
+<div id="wb_rbtn_simulationtimeseconds" style="position:absolute;left:249px;top:68px;width:20px;height:20px;z-index:12;">
+<input type="radio" id="rbtn_simulationtimeseconds" name="SimulationTime" value="s" style="position:absolute;left:0;top:0;"><label for="rbtn_simulationtimeseconds"></label></div>
+<div id="wb_Text22" style="position:absolute;left:279px;top:47px;width:63px;height:15px;z-index:13;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">minutes</span></div>
+<div id="wb_Text23" style="position:absolute;left:279px;top:71px;width:63px;height:15px;z-index:14;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">seconds</span></div>
+</div>
+<div style="height:540px;" id="tabs1-page-2">
+<div id="wb_Text10" style="position:absolute;left:47px;top:56px;width:99px;height:15px;z-index:15;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">PV penetration</span></div>
+<input type="text" id="txtbx_pvpenetration" style="position:absolute;left:146px;top:50px;width:38px;height:16px;z-index:16;" name="Editbox1" value="0.9" spellcheck="false">
+<div id="wb_chbx_pvpenetration" style="position:absolute;left:217px;top:56px;width:20px;height:15px;z-index:17;">
+<input type="checkbox" id="chbx_pvpenetration" name="chbx_pvpenetration" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_pvpenetration"></label></div>
+<div id="wb_Text11" style="position:absolute;left:64px;top:90px;width:99px;height:15px;z-index:18;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Enable PVs</span></div>
+<div id="wb_chbx_enablepv" style="position:absolute;left:163px;top:90px;width:20px;height:15px;z-index:19;">
+<input type="checkbox" id="chbx_enablepv" name="chbx_enablepv" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_enablepv"></label></div>
+<div id="wb_Text15" style="position:absolute;left:23px;top:121px;width:123px;height:15px;z-index:20;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Irradiation DSS file</span></div>
+<div id="txtbx_irradiationdssfile" class="input-group" style="position:absolute;left:146px;top:116px;width:270px;height:26px;z-index:21;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_irradiationdssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_Text16" style="position:absolute;left:23px;top:157px;width:123px;height:15px;z-index:22;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Efficiency DSS file</span></div>
+<div id="txtbx_efficiencydssfile" class="input-group" style="position:absolute;left:146px;top:150px;width:270px;height:26px;z-index:23;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_efficiencydssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_Text17" style="position:absolute;left:60px;top:189px;width:123px;height:15px;z-index:24;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">P-T DSS file</span></div>
+<div id="txtbx_ptdssfile" class="input-group" style="position:absolute;left:146px;top:183px;width:270px;height:26px;z-index:25;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_ptdssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_Text18" style="position:absolute;left:10px;top:223px;width:136px;height:15px;z-index:26;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Temperature DSS file</span></div>
+<div id="txtbx_temperaturedssfile" class="input-group" style="position:absolute;left:146px;top:217px;width:270px;height:26px;z-index:27;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_temperaturedssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_imgirradiation" style="position:absolute;left:457px;top:51px;width:452px;height:291px;z-index:28;">
+<img src="images/rc5wvf3d5p.jpg" id="imgirradiation" alt=""></div>
+<input type="submit" id="Graphirrad" onclick="graph_irradiation();SetImage('imgirradiation','images/irradiation.png');return false;" name="" value="Graph" style="position:absolute;left:483px;top:342px;width:96px;height:25px;z-index:29;">
+</div>
+<div style="height:540px;" id="tabs1-page-3">
+<div id="wb_Text2" style="position:absolute;left:33px;top:41px;width:201px;height:15px;z-index:30;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Setpoint change delay (seconds)</span></div>
+<input type="text" id="txtbx_setpointdelay" style="position:absolute;left:276px;top:35px;width:38px;height:16px;z-index:31;" name="charge_change_time" value="2" spellcheck="false">
+<div id="wb_Text8" style="position:absolute;left:33px;top:122px;width:99px;height:15px;z-index:32;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">EV penetration</span></div>
+<input type="text" id="txtbx_evpenetration" style="position:absolute;left:276px;top:116px;width:38px;height:16px;z-index:33;" name="EV_penetration" value="0.9" spellcheck="false">
+<div id="wb_chbx_evpenetration" style="position:absolute;left:340px;top:122px;width:20px;height:15px;z-index:34;">
+<input type="checkbox" id="chbx_evpenetration" name="run_ev_penetration" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_evpenetration"></label></div>
+<div id="wb_Text9" style="position:absolute;left:33px;top:169px;width:99px;height:15px;z-index:35;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Enable EVs</span></div>
+<div id="wb_chbx_enableev" style="position:absolute;left:340px;top:169px;width:20px;height:15px;z-index:36;">
+<input type="checkbox" id="chbx_enableev" name="vehicles_enabled" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_enableev"></label></div>
+<div id="txtbx_chargeprobabilityfile" class="input-group" style="position:absolute;left:31px;top:246px;width:270px;height:26px;z-index:37;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_chargeprobabilityfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<div id="wb_Text5" style="position:absolute;left:24px;top:218px;width:138px;height:15px;z-index:38;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Charge Probability file</span></div>
+<div id="wb_Text12" style="position:absolute;left:33px;top:319px;width:74px;height:15px;z-index:39;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Generate:</span></div>
+<div id="wb_chbx_defaultchargeprobability" style="position:absolute;left:320px;top:251px;width:20px;height:16px;z-index:40;">
+<input type="checkbox" id="chbx_defaultchargeprobability" name="Checkbox5" value="on" checked style="position:absolute;left:0;top:0;"><label for="chbx_defaultchargeprobability"></label></div>
+<div id="wb_Text13" style="position:absolute;left:33px;top:352px;width:99px;height:15px;z-index:41;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">First peak</span></div>
+<input type="text" id="txtbx_firstpeak" style="position:absolute;left:151px;top:346px;width:38px;height:16px;z-index:42;" name="charging_peak1" value="08h00" spellcheck="false">
+<div id="wb_Text14" style="position:absolute;left:33px;top:403px;width:99px;height:15px;z-index:43;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Second peak</span></div>
+<input type="text" id="txtbx_secondpeak" style="position:absolute;left:151px;top:397px;width:38px;height:16px;z-index:44;" name="charging_peak2" value="18h00" spellcheck="false">
+<div id="wb_imgprob" style="position:absolute;left:464px;top:235px;width:374px;height:249px;z-index:45;">
+<img src="images/hoir75njwm.jpg" id="imgprob" alt=""></div>
+<div id="wb_Text37" style="position:absolute;left:33px;top:81px;width:201px;height:15px;z-index:46;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Average charging time (hours)</span></div>
+<input type="text" id="txtbx_averagechargingtime" style="position:absolute;left:276px;top:75px;width:38px;height:16px;z-index:47;" name="charge_change_time" value="5" spellcheck="false">
+<input type="submit" id="Graphprob" onclick="graph_probability();SetImage('imgprob','images/probability.png');return false;" name="" value="Graph" style="position:absolute;left:501px;top:484px;width:96px;height:25px;z-index:48;">
+</div>
+<div style="height:540px;" id="tabs1-page-4">
+<div id="wb_Text6" style="position:absolute;left:72px;top:74px;width:201px;height:15px;z-index:49;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Transmission delay (seconds)</span></div>
+<input type="text" id="txtbx_transmissiondelay" style="position:absolute;left:290px;top:68px;width:38px;height:16px;z-index:50;" name="comunication_delay_time" value="0.1" spellcheck="false">
+<div id="wb_Text24" style="position:absolute;left:72px;top:238px;width:201px;height:15px;z-index:51;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Propagation delay (seconds)</span></div>
+<div id="wb_Text25" style="position:absolute;left:72px;top:350px;width:201px;height:15px;z-index:52;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Queuing delay (seconds)</span></div>
+<div id="wb_Text26" style="position:absolute;left:72px;top:391px;width:201px;height:15px;z-index:53;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Processing delay (seconds)</span></div>
+<input type="text" id="txtbx_propagationdelay" style="position:absolute;left:290px;top:232px;width:38px;height:16px;z-index:54;" name="comunication_delay_time" value="0.1" spellcheck="false">
+<input type="text" id="txtbx_queuingdelay" style="position:absolute;left:290px;top:344px;width:38px;height:16px;z-index:55;" name="comunication_delay_time" value="0.1" spellcheck="false">
+<input type="text" id="txtbx_processingdelay" style="position:absolute;left:290px;top:385px;width:38px;height:16px;z-index:56;" name="comunication_delay_time" value="0.1" spellcheck="false">
+<div id="wb_Text28" style="position:absolute;left:72px;top:432px;width:201px;height:15px;z-index:57;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Communication nodes</span></div>
+<input type="text" id="txtbx_commnodes" style="position:absolute;left:290px;top:426px;width:38px;height:16px;z-index:58;" name="comunication_delay_time" value="2" spellcheck="false">
+<div id="wb_Image6" style="position:absolute;left:393px;top:144px;width:463px;height:241px;z-index:59;">
+<img src="images/xqi0c9cr4x.jpg" id="Image6" alt=""></div>
+<div id="wb_Text30" style="position:absolute;left:137px;top:109px;width:201px;height:15px;z-index:60;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Bandwidth (Mbps)</span></div>
+<div id="wb_Text31" style="position:absolute;left:137px;top:144px;width:201px;height:15px;z-index:61;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Packet size (bits)</span></div>
+<div id="wb_Text32" style="position:absolute;left:137px;top:179px;width:201px;height:15px;z-index:62;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Number of packets</span></div>
+<div id="wb_chbx_transmissiondelay" style="position:absolute;left:350px;top:74px;width:20px;height:15px;z-index:63;">
+<input type="checkbox" id="chbx_transmissiondelay" name="run_ev_penetration" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_transmissiondelay"></label></div>
+<input type="text" id="txtbx_bandwidth" style="position:absolute;left:290px;top:103px;width:38px;height:16px;z-index:64;" name="comunication_delay_time" value="1" spellcheck="false">
+<input type="text" id="txtbx_paquetsize" style="position:absolute;left:290px;top:138px;width:38px;height:16px;z-index:65;" name="comunication_delay_time" value="8" spellcheck="false">
+<input type="text" id="txtbx_npackets" style="position:absolute;left:290px;top:172px;width:38px;height:16px;z-index:66;" name="comunication_delay_time" value="4" spellcheck="false">
+<div id="wb_chbx_propagationdelay" style="position:absolute;left:350px;top:238px;width:20px;height:15px;z-index:67;">
+<input type="checkbox" id="chbx_propagationdelay" name="run_ev_penetration" value="on" style="position:absolute;left:0;top:0;"><label for="chbx_propagationdelay"></label></div>
+<div id="wb_Text29" style="position:absolute;left:137px;top:273px;width:201px;height:15px;z-index:68;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Distance (m)</span></div>
+<input type="text" id="txtbx_distance" style="position:absolute;left:290px;top:267px;width:38px;height:16px;z-index:69;" name="comunication_delay_time" value="10" spellcheck="false">
+<div id="wb_Text33" style="position:absolute;left:137px;top:308px;width:201px;height:15px;z-index:70;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Velocity (m/s)</span></div>
+<input type="text" id="txtbx_velocity" style="position:absolute;left:290px;top:302px;width:38px;height:16px;z-index:71;" name="comunication_delay_time" value="2.1E8" spellcheck="false">
+<div id="wb_chbx_enablecommdelays" style="position:absolute;left:307px;top:29px;width:14px;height:20px;z-index:72;">
+<input type="checkbox" id="chbx_enablecommdelays" name="" value="on" checked style="position:absolute;left:0;top:0;"><label for="chbx_enablecommdelays"></label></div>
+<div id="wb_Text39" style="position:absolute;left:72px;top:29px;width:201px;height:15px;z-index:73;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Enable communication delays</span></div>
+</div>
+<div style="height:540px;" id="tabs1-page-5">
+<div id="wb_imgloadprof" style="position:absolute;left:274px;top:100px;width:435px;height:291px;z-index:74;">
+<img src="images/v3l4tnd2v6.jpg" id="imgloadprof" alt=""></div>
+<div id="wb_Text27" style="position:absolute;left:47px;top:59px;width:123px;height:15px;z-index:75;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Load DSS file</span></div>
+<div id="txtbx_loaddssfile" class="input-group" style="position:absolute;left:145px;top:53px;width:270px;height:26px;z-index:76;">
+<input class="form-control" type="text" readonly="">
+<label class="input-group-btn">
+<input type="file" name="FileUpload1" id="txtbx_loaddssfile-file" style="display:none;"><span class="btn">Browse...</span>
+</label>
+</div>
+<input type="submit" id="Graphloadprofile" onclick="graph_residentialloadshape();SetImage('imgloadprof','images/loadprofile.png');return false;" name="" value="Graph" style="position:absolute;left:343px;top:433px;width:96px;height:25px;z-index:77;">
+</div>
+<div style="height:540px;" id="tabs1-page-6">
+<div id="wb_Text34" style="position:absolute;left:83px;top:60px;width:139px;height:15px;z-index:78;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Savitszky-Golay filter</span></div>
+<div id="wb_Text35" style="position:absolute;left:113px;top:90px;width:139px;height:15px;z-index:79;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Window size</span></div>
+<div id="wb_Text36" style="position:absolute;left:113px;top:121px;width:139px;height:15px;z-index:80;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Polinomial order</span></div>
+<input type="text" id="txtbx_golaywindowsize" style="position:absolute;left:244px;top:84px;width:38px;height:16px;z-index:81;" name="comunication_delay_time" value="51" spellcheck="false">
+<input type="text" id="txtbx_golaypoliorder" style="position:absolute;left:244px;top:115px;width:38px;height:16px;z-index:82;" name="comunication_delay_time" value="3" spellcheck="false">
+<div id="wb_Image7" style="position:absolute;left:376px;top:34px;width:329px;height:211px;z-index:83;">
+<img src="images/gl1aoc9l9r.jpg" id="Image7" alt=""></div>
+<div id="wb_Image8" style="position:absolute;left:398px;top:253px;width:306px;height:210px;z-index:84;">
+<img src="images/d4uqie7eji.jpg" id="Image8" alt=""></div>
+<div id="wb_chbx_enablecontrol" style="position:absolute;left:252px;top:178px;width:20px;height:22px;z-index:85;">
+<input type="checkbox" id="chbx_enablecontrol" name="chbx_enablecontrol" value="on" checked style="position:absolute;left:0;top:0;"><label for="chbx_enablecontrol"></label></div>
+<div id="wb_Text38" style="position:absolute;left:94px;top:182px;width:97px;height:15px;z-index:86;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Enable control</span></div>
+</div>
+<div style="height:540px;" id="tabs1-page-7">
+<div id="wb_Checkbox1" style="position:absolute;left:57px;top:61px;width:20px;height:20px;z-index:87;">
+<input type="checkbox" id="Checkbox1" name="" value="on" checked style="position:absolute;left:0;top:0;"><label for="Checkbox1"></label></div>
+<div id="wb_Text40" style="position:absolute;left:97px;top:64px;width:139px;height:15px;z-index:88;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Power</span></div>
+<div id="wb_Text41" style="position:absolute;left:97px;top:94px;width:139px;height:15px;z-index:89;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Voltage</span></div>
+<div id="wb_Checkbox2" style="position:absolute;left:57px;top:91px;width:20px;height:20px;z-index:90;">
+<input type="checkbox" id="Checkbox2" name="" value="on" checked style="position:absolute;left:0;top:0;"><label for="Checkbox2"></label></div>
+<div id="wb_Text42" style="position:absolute;left:47px;top:32px;width:139px;height:15px;z-index:91;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Substation transformer</span></div>
+<div id="wb_Text43" style="position:absolute;left:47px;top:136px;width:139px;height:15px;z-index:92;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Distribution transformer</span></div>
+<div id="wb_Text44" style="position:absolute;left:97px;top:205px;width:139px;height:15px;z-index:93;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Power</span></div>
+<div id="wb_Checkbox3" style="position:absolute;left:57px;top:202px;width:20px;height:20px;z-index:94;">
+<input type="checkbox" id="Checkbox3" name="" value="on" checked style="position:absolute;left:0;top:0;"><label for="Checkbox3"></label></div>
+<div id="wb_Checkbox4" style="position:absolute;left:57px;top:232px;width:20px;height:20px;z-index:95;">
+<input type="checkbox" id="Checkbox4" name="" value="on" checked style="position:absolute;left:0;top:0;"><label for="Checkbox4"></label></div>
+<div id="wb_Text45" style="position:absolute;left:97px;top:235px;width:139px;height:15px;z-index:96;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Voltage</span></div>
+<input type="text" id="Editbox1" style="position:absolute;left:130px;top:161px;width:38px;height:16px;z-index:97;" name="comunication_delay_time" value="51" spellcheck="false">
+<div id="wb_Text46" style="position:absolute;left:57px;top:167px;width:62px;height:15px;z-index:98;">
+<span style="color:#000000;font-family:Arial;font-size:13px;">Name:</span></div>
+</div>
+</div>
+<div id="wb_Image2" style="position:absolute;left:68px;top:13px;width:159px;height:80px;z-index:100;">
+<img src="images/uvalogo.jpg" id="Image2" alt=""></div>
+<div id="wb_Image3" style="position:absolute;left:910px;top:0px;width:211px;height:109px;z-index:101;">
+<img src="images/uclogo.jpg" id="Image3" alt=""></div>
+<div id="wb_Text1" style="position:absolute;left:427px;top:49px;width:323px;height:22px;z-index:102;">
+<span style="color:#000000;font-family:Arial;font-size:20px;">Microgrid simulation (PV-EV)</span></div>
+<input type="submit" id="Button1" onclick="callPython();return false;" name="" value="Run simulation" style="position:absolute;left:30px;top:93px;width:96px;height:25px;z-index:103;">
+</body>
+</html>
