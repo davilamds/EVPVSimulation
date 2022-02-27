@@ -1,0 +1,2 @@
+New XYCurve.PvsT npts=4 csvfile=fotovoltaico\PvsT.dss
+New XYCurve.EffvsP npts=6 csvfile=fotovoltaico\EffvsP.dss

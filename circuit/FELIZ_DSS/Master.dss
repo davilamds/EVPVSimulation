@@ -1,0 +1,23 @@
+clear
+New circuit.LVTest
+Set DefaultBaseFrequency=50  ! for European system
+set EarthModel=Carson
+
+Edit Vsource.Source BasekV=11 pu=1.05  ISC3=3000  ISC1=5
+
+
+redirect FEL_Transformers.dss
+redirect FEL_LineCodes.dss
+redirect FEL_LinesLV.dss
+redirect FEL_Loadshapes.dss
+redirect FEL_Loadshapes_PV.dss
+redirect FEL_Loadshapes_EV.dss
+redirect FEL_LoadsLV.dss
+redirect FEL_TShapes.dss
+redirect FEL_Curves.dss
+redirect FEL_PV.dss
+redirect FEL_EV_Storage.dss
+
+Set voltagebases=[11  .416]
+buscoords buscoords.txt
+!solve

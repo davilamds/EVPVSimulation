@@ -1,0 +1,14 @@
+New Loadshape.ev_cliente_1 npts=86400 sinterval=1 mult=(file=autos\auto1nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_2 npts=86400 sinterval=1 mult=(file=autos\auto2nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_3 npts=86400 sinterval=1 mult=(file=autos\auto3nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_4 npts=86400 sinterval=1 mult=(file=autos\auto4nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_5 npts=86400 sinterval=1 mult=(file=autos\auto5nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_6 npts=86400 sinterval=1 mult=(file=autos\auto6nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_7 npts=86400 sinterval=1 mult=(file=autos\auto7nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_8 npts=86400 sinterval=1 mult=(file=autos\auto8nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_9 npts=86400 sinterval=1 mult=(file=autos\auto9nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_10 npts=86400 sinterval=1 mult=(file=autos\auto10nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_11 npts=86400 sinterval=1 mult=(file=autos\auto11nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_12 npts=86400 sinterval=1 mult=(file=autos\auto12nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_13 npts=86400 sinterval=1 mult=(file=autos\auto13nocontrol.dss) useactual=no
+New Loadshape.ev_cliente_14 npts=86400 sinterval=1 mult=(file=autos\auto14nocontrol.dss) useactual=no

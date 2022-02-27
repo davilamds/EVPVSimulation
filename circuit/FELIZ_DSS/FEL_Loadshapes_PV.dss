@@ -1,0 +1,2 @@
+New LoadShape.Radiacion npts=86400 sinterval=1 mult=(file=fotovoltaico\Radiacion.dss) useactual=no
+!New LoadShape.Radiacion npts=86400 sinterval=1 mult=(file=fotovoltaico\Pot_Sep_28.txt) useactual=no
